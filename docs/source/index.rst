@@ -6,6 +6,7 @@ GENICS's documentation
    :maxdepth: 2
    :caption: Contents:
 
+   set_up_env/index.rst
 
 
 Indices and tables
