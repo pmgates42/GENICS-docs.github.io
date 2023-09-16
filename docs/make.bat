@@ -26,6 +26,13 @@ if errorlevel 9009 (
 if "%1" == "" goto help
 
 %SPHINXBUILD% -M %1 %SOURCEDIR% %BUILDDIR% %SPHINXOPTS% %O%
+
+:: Copy the generated HTML files to the parent directory. This ensures that
+set sourceDir=build\html
+set targetDir=..
+
+xcopy /s /e /i "%sourceDir%" "%targetDir%"
+
 goto end
 
 :help
