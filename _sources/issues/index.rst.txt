@@ -148,3 +148,50 @@ to be an existing object, and if it isnt, it will simply use an empty string.
         startDate={user?.data?.signupDate?user.data.signupDate:""}
         badgeCount={user?.data?.badgesEarned?user.data.badgesEarned.length:""}/>
     </div>
+
+Identified Issue: 2
+--------------------
+
+Currently there does not seem to be support for custom profile pictures. 
+This is a database heavy issue as it requires storing the image as blob data in the database
+
+Identified Issue: 3
+--------------------
+
+Messages do not seem to be supported for students. There is something called a Notification in the database component files,
+genics-app/config/database/models/notification.js; however, there does not appear to be any functional support for
+users to send or receive messages. Messages do not appear to be represented in the provided ER diagrams either.
+
+This will require someone to look more into what support exists for this feature and what are the desired requirements/expectations
+for messaging within the application.
+
+Identified Issue: 4
+--------------------
+
+If a student doesn't have any badges, then the area where the badges are supposed to be displayed is empty.
+Meanwhile, the Badges in Progress section dsiplays a message saying "There are no records to display" This is inconsistent.
+
+Identified Issue: 5
+--------------------
+
+The Contact page appears to not be functional. The page is supposed to allow users to send messages to the
+administrators of the site. However, the page does not appear to have any functionality.
+
+Identified Issue: 6
+--------------------
+
+Event statistics are hardcoded.
+
+
+Identified Issue: 7
+--------------------
+
+This application is supposed to be created for mobile platforms, however, it is not formatted that way at all. There are many
+instances of the application not being responsive to the screen size. This is a major issue as it is a core requirement of the
+project.
+
+Identified Issue: 8
+--------------------
+
+The application is generally not good at failing. Often times, when an error occurs, the application will simply crash or display
+an empty page. Meanwhile, there are many errors occuring in the developer console in the browser.

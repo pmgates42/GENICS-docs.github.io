@@ -150,6 +150,44 @@ to be an existing object, and if it isnt, it will simply use an empty string.</p
 </pre></div>
 </div>
 </section>
+<section id="identified-issue-2">
+<h2>Identified Issue: 2<a class="headerlink" href="#identified-issue-2" title="Link to this heading">¶</a></h2>
+<p>Currently there does not seem to be support for custom profile pictures.
+This is a database heavy issue as it requires storing the image as blob data in the database</p>
+</section>
+<section id="identified-issue-3">
+<h2>Identified Issue: 3<a class="headerlink" href="#identified-issue-3" title="Link to this heading">¶</a></h2>
+<p>Messages do not seem to be supported for students. There is something called a Notification in the database component files,
+genics-app/config/database/models/notification.js; however, there does not appear to be any functional support for
+users to send or receive messages. Messages do not appear to be represented in the provided ER diagrams either.</p>
+<p>This will require someone to look more into what support exists for this feature and what are the desired requirements/expectations
+for messaging within the application.</p>
+</section>
+<section id="identified-issue-4">
+<h2>Identified Issue: 4<a class="headerlink" href="#identified-issue-4" title="Link to this heading">¶</a></h2>
+<p>If a student doesn’t have any badges, then the area where the badges are supposed to be displayed is empty.
+Meanwhile, the Badges in Progress section dsiplays a message saying “There are no records to display” This is inconsistent.</p>
+</section>
+<section id="identified-issue-5">
+<h2>Identified Issue: 5<a class="headerlink" href="#identified-issue-5" title="Link to this heading">¶</a></h2>
+<p>The Contact page appears to not be functional. The page is supposed to allow users to send messages to the
+administrators of the site. However, the page does not appear to have any functionality.</p>
+</section>
+<section id="identified-issue-6">
+<h2>Identified Issue: 6<a class="headerlink" href="#identified-issue-6" title="Link to this heading">¶</a></h2>
+<p>Event statistics are hardcoded.</p>
+</section>
+<section id="identified-issue-7">
+<h2>Identified Issue: 7<a class="headerlink" href="#identified-issue-7" title="Link to this heading">¶</a></h2>
+<p>This application is supposed to be created for mobile platforms, however, it is not formatted that way at all. There are many
+instances of the application not being responsive to the screen size. This is a major issue as it is a core requirement of the
+project.</p>
+</section>
+<section id="identified-issue-8">
+<h2>Identified Issue: 8<a class="headerlink" href="#identified-issue-8" title="Link to this heading">¶</a></h2>
+<p>The application is generally not good at failing. Often times, when an error occurs, the application will simply crash or display
+an empty page. Meanwhile, there are many errors occuring in the developer console in the browser.</p>
+</section>
 </section>
 
 
@@ -176,6 +214,13 @@ to be an existing object, and if it isnt, it will simply use an empty string.</p
 <li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#identified-issue-0">Identified Issue: 0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#identified-issue-1">Identified Issue: 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#identified-issue-2">Identified Issue: 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#identified-issue-3">Identified Issue: 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#identified-issue-4">Identified Issue: 4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#identified-issue-5">Identified Issue: 5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#identified-issue-6">Identified Issue: 6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#identified-issue-7">Identified Issue: 7</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#identified-issue-8">Identified Issue: 8</a></li>
 </ul>
 </li>
 </ul>
