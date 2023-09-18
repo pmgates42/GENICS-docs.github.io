@@ -7,6 +7,7 @@ GENICS's documentation
    :caption: Contents:
 
    set_up_env/index.rst
+   issues/index.rst
 
 
 Indices and tables

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Identified Issues &#8212; GENICS 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=4f649999" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=039e1c02" />
+    <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Setting Up Environment" href="../set_up_env/index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="identified-issues">
+<h1>Identified Issues<a class="headerlink" href="#identified-issues" title="Link to this heading">¶</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
+<p>In an effort to determine the quality of the original project, issues are listed below. In the code there is a
+tag for each Identified issue which has the following format:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// Identified Issue: &lt;Issue Number&gt;</span>
+</pre></div>
+</div>
+<p>The issue number is a unique identifier for the issue.</p>
+</section>
+<section id="identified-issue-0">
+<h2>Identified Issue: 0<a class="headerlink" href="#identified-issue-0" title="Link to this heading">¶</a></h2>
+<p>The current code lacks proper password checking logic. It appears that passwords are stored in the database in
+both plain text and hashed form. However, the code sets a variable called ‘checkPassword’ to ‘true,’ indicating
+that passwords are always considered correct. This is a security vulnerability as it does not verify passwords
+against their hashed counterparts.</p>
+</section>
+<section id="identified-issue-1">
+<h2>Identified Issue: 1<a class="headerlink" href="#identified-issue-1" title="Link to this heading">¶</a></h2>
+<p>Missing a way to load various profile information that is expected to be loaded on the main page.
+This includes Total badges earned, linkedIn profile, etc.</p>
+<p>After looking through the current software, there doesn’t appear to be a way to set the LinkedIn information.</p>
+<p><strong>Server side handling</strong></p>
+<p>genics-app/pages/api/students/[id].js is a dynamic route that allows for retrieving a student’s information.
+During runtime, id is set to the user id of the student. The code then queries the database for the student’s
+information</p>
+<p>For example, if the user id is <strong>as213as21</strong> then the path will look like this:
+genics-app/pages/api/students/<strong>as213as21</strong>.js</p>
+<p>This is done through an HTTP GET request.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="nx">method</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;GET&quot;</span><span class="o">:</span>
+<span class="hll"><span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nx">getStudent</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span><span class="w"> </span><span class="nx">res</span><span class="p">);</span>
+</span><span class="w">    </span><span class="k">break</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;PATCH&quot;</span><span class="o">:</span>
+<span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nx">updateStudent</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span><span class="w"> </span><span class="nx">res</span><span class="p">);</span>
+<span class="w">    </span><span class="k">break</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;DELETE&quot;</span><span class="o">:</span>
+<span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nx">deleteStudent</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span><span class="w"> </span><span class="nx">res</span><span class="p">);</span>
+<span class="w">    </span><span class="k">break</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">default</span><span class="o">:</span>
+<span class="w">    </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span>
+<span class="w">        </span><span class="sb">`The HTTP </span><span class="si">${</span><span class="nx">method</span><span class="si">}</span><span class="sb"> method is not supported at this route.`</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="w">    </span><span class="k">break</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This code will query the students collection in the database using the id. Upon finding the student
+information, it will return the information in JSON format. the <cite>res</cite> object is used to send the
+response back to the client.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span><span class="w"> </span><span class="nx">getStudent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="nx">req</span><span class="p">,</span><span class="w"> </span><span class="nx">res</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+
+<span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">student</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">Student</span><span class="p">.</span><span class="nx">findOne</span><span class="p">({</span>
+<span class="w">    </span><span class="c1">// student: req.student,</span>
+<span class="w">    </span><span class="nx">_id</span><span class="o">:</span><span class="w"> </span><span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span>
+<span class="w">    </span><span class="p">});</span>
+
+<span class="w">    </span><span class="nx">res</span><span class="p">.</span><span class="nx">status</span><span class="p">(</span><span class="mf">200</span><span class="p">).</span><span class="nx">json</span><span class="p">({</span>
+<span class="w">    </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;success&quot;</span><span class="p">,</span>
+<span class="hll"><span class="w">    </span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="nx">student</span><span class="p">,</span>
+</span><span class="w">    </span><span class="p">});</span>
+<span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p><strong>Client Handling</strong></p>
+<p>genics-app/components/users/student/student-profile.js is the module that handles the client side of the
+student profile.</p>
+<p>Upon loading the page, the client will make a GET request to the server to retrieve the student’s information.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span><span class="w"> </span><span class="nx">getUser</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useCallback</span><span class="p">(</span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">session</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="hll"><span class="w">    </span><span class="nx">setUser</span><span class="p">(</span><span class="k">await</span><span class="w"> </span><span class="nx">getStudentProfile</span><span class="p">())</span>
+</span><span class="w">  </span><span class="p">}</span>
+<span class="p">},</span><span class="w"> </span><span class="p">[</span><span class="nx">session</span><span class="p">]);</span>
+</pre></div>
+</div>
+<p>Note that the setUser function is a React component that allows updates to variables without having to reload the page.
+<strong>setUser</strong> will set the variable called <em>user</em>. The below code is how you register this kind of variables.</p>
+<dl class="simple">
+<dt>The format is as follows:</dt><dd><p>const [&lt;variable-name&gt;, &lt;function-name&gt;] = useState([&lt;initial-value&gt;]);</p>
+</dd>
+</dl>
+<p>Here is the code for setUser:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">user</span><span class="p">,</span><span class="w"> </span><span class="nx">setUser</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">([]);</span>
+</pre></div>
+</div>
+<p><strong>getStudentProfile</strong>:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span><span class="w"> </span><span class="nx">getStudentProfile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">session</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetch</span><span class="p">(</span><span class="s2">&quot;/api/students/&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">session</span><span class="p">.</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;GET&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="p">});</span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">()</span>
+<span class="hll"><span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="nx">data</span><span class="p">;</span>
+</span><span class="w">  </span><span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p><strong>Showing the information to the user</strong></p>
+<p>The highlighted line below expects <em>user?.data?.linkedIn?user.data.linkedIn</em>
+to be an existing object, and if it isnt, it will simply use an empty string.</p>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">div</span> <span class="na">className</span><span class="o">=</span><span class="s">&#39;h-full&#39;</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">StudentInfo</span>
+    <span class="na">name</span><span class="o">=</span><span class="s">{user?.data?.firstName?user.data.firstName:&quot;&quot;}</span>
+    <span class="na">status</span><span class="o">=</span><span class="s">{&#39;online&#39;}</span>
+<span class="hll">    <span class="na">linkedIn</span><span class="o">=</span><span class="s">{user?.data?.linkedIn?user.data.linkedIn:&quot;&quot;}</span>
+</span>    <span class="na">startDate</span><span class="o">=</span><span class="s">{user?.data?.signupDate?user.data.signupDate:&quot;&quot;}</span>
+    <span class="na">badgeCount</span><span class="o">=</span><span class="s">{user?.data?.badgesEarned?user.data.badgesEarned.length:&quot;&quot;}/</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">GENICS</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../set_up_env/index.html">Setting Up Environment</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Identified Issues</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#identified-issue-0">Identified Issue: 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#identified-issue-1">Identified Issue: 1</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../set_up_env/index.html" title="previous chapter">Setting Up Environment</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, group25.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.2.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../_sources/issues/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
